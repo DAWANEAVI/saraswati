@@ -24,12 +24,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //$config['base_url']=$config['base_url']=((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']== "on")? "https": "http")."://".$_SERVER['HTTP_HOST'].str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-$config['base_url']='http://localhost/saraswati/';
-//if(getenv('CI_ENV') == 'development'){
-//$config['base_url'] = 'http://localhost/sardarpatel/';
-// }else{
-//$config['base_url'] = 'https://spemsyavatmal.technopridess.com/';
-// }
+
+if(getenv('CI_ENV') == 'development'){
+  $config['base_url']='http://localhost/saraswati/';
+}else{
+$config['base_url'] = 'https://spemsbabhulgaon.technopridess.com/';
+}
 
 
   //$config['base_url'] = '';

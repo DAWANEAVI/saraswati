@@ -1,8 +1,8 @@
 //----------- production -----------------
-//var base_url = "https://littlebirdschooldarwha.in/";
+var base_url = "https://spemsbabhulgaon.technopridess.com/";
 
 //----------- development ----------------
-var base_url = 'http://localhost/saraswati/';
+//var base_url = 'http://localhost/saraswati/';
 
 function readURL(input) {
     if (input.files && input.files[0]) {
