@@ -1,0 +1,88 @@
+img{
+    max-width:180px;
+}
+input[type=file]{
+    padding:2px;
+    background:#2d2d2d;
+    width:58%;}
+
+.page {
+    width: 21cm;
+    min-height: 29.7cm;
+    margin: 1cm auto;
+    border: 1px #D3D3D3 solid;
+    padding:5px;
+    border-radius: 0px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.school-name{
+    font-family: 'Cinzel';
+    font-weight: 900;
+    margin-bottom: -0.5rem!important;
+}
+.line{
+    width:100%;
+    border-bottom:1px solid #000;
+    margin-left:10px;
+    margin-right:10px;
+    padding:0px 10px;
+    display: inline;
+}
+.line-row{
+    border-bottom: 2px solid #000;
+    margin-right:0px; 
+    margin-left:0px;
+}
+.field{
+    border-top:2px solid #000;
+    border-left:2px solid #000;
+    border-bottom:2px solid #000;
+    width:30px;
+    height:30px;
+    padding:5px 10px;
+    float: left;
+}
+.field-last{
+    border-right:2px solid #000;
+}
+    @page {
+    size: A4;
+    margin: 10px;
+}
+
+
+    @media print {
+    html,
+    body {
+        width: 210mm;
+        height: 297mm;
+    }
+    .col-md-1 {width:8%;  float:left;}
+    .col-md-2 {width:16%; float:left;margin:10px}
+    .col-md-3 {width:25%; float:left;margin:10px}
+    .col-md-4 {width:33%; float:left;margin:10px}
+    .col-md-5 {width:42%; float:left;margin:10px}
+    .col-md-6 {width:50%; float:left;margin:10px}
+    .col-md-7 {width:58%; float:left;margin:10px}
+    .col-md-8 {width:66%; float:left;margin:10px}
+    .col-md-9 {width:75%; float:left;margin:10px}
+    .col-md-10{width:83%; float:left;margin:10px}
+    .col-md-11{width:92%; float:left;margin:10px}
+    .col-md-12{width:100%; float:left;margin:10px}
+    tr,td{
+        margin:4px!important;
+        padding:10px!important;
+        font-size:15px;
+            
+    }
+    }
+
+    .table-lesspadding td,
+    .table-lesspadding th {
+        padding: 0.6rem 0.6rem !important;
+    }
+
+
+
+

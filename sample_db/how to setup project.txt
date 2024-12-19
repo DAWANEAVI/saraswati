@@ -1,0 +1,5 @@
+Step 1 : create new folder named saraswati inside your xampp/htdocs .
+Step 2 : create new database named saraswati.
+step 3 : import sample db.
+step 4 : visit to baseurl that is http://localhost/saraswati/user/login
+step 5 : use username-> admin and password-> lbs@123
