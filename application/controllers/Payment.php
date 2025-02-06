@@ -80,88 +80,67 @@ class Payment extends CI_Controller {
 
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('Educat.ionFeeclass', 'Education Fee', 'required');
-       $this->form_validation->set_rules('TermFeeclass', 'Term Fee', 'required');
-        $this->form_validation->set_rules('ExamFeeclass', 'Exam Fee', 'required');
-        $this->form_validation->set_rules('SportFeeclass', 'Sport Fee', 'required');
-        $this->form_validation->set_rules('ComputerFeeclass', 'Computer Fee', 'required');
-
-        $this->form_validation->set_rules('EducationFeechanged', 'Education Fee', 'required');
-        $this->form_validation->set_rules('TermFeechanged', 'Term Fee', 'required');
-        $this->form_validation->set_rules('ExamFeechanged', 'Exam Fee', 'required');
-        $this->form_validation->set_rules('SportFeechanged', 'Sport Fee', 'required');
-        $this->form_validation->set_rules('ComputerFeechanged', 'Computer Fee', 'required');
-
-        $this->form_validation->set_rules('EducationFeeoriginal', 'Education Fee', 'required');
-        $this->form_validation->set_rules('TermFeeoriginal', 'Term Fee', 'required');
-        $this->form_validation->set_rules('ExamFeeoriginal', 'Exam Fee', 'required');
-        $this->form_validation->set_rules('SportFeeoriginal', 'Sport Fee', 'required');
-        $this->form_validation->set_rules('ComputerFeeoriginal', 'Computer Fee', 'required');
+       
+        $this->form_validation->set_rules('TuitionFeesCT', 'Tuition Fees Total', 'required');
+        $this->form_validation->set_rules('TuitionFeesCR', 'Tuition Fees Remaining', 'required');
 
         //print_r($this->input->post()); die();
 
         if ($this->form_validation->run()) {
-
-            //input class fields
-            $EducationFeeclass = $this->input->post('EducationFeeclass');
-            $TermFeeclass = $this->input->post('TermFeeclass');
-             $ExamFeeclass = $this->input->post('ExamFeeclass');
-             $SportFeeclass = $this->input->post('SportFeeclass');
-             $ComputerFeeclass = $this->input->post('ComputerFeeclass');
-
-            //input orignal fields
-            // $EducationFeeoriginal = $this->input->post('EducationFeeoriginal');
-             $TermFeeoriginal = $this->input->post('TermFeeoriginal');
-            // $ExamFeeoriginal = $this->input->post('ExamFeeoriginal');
-            // $SportFeeoriginal = $this->input->post('SportFeeoriginal');
-            // $ComputerFeeoriginal = $this->input->post('ComputerFeeoriginal');
+            $total_total = $this->input->post('total_total');
+            $total_remaining = $this->input->post('total_remaining');
+            $total_CT =$this->input->post('TuitionFeesCT');
+            $total_CR =$this->input->post('TuitionFeesCR');
+            if(($total_total != $total_CT) || ($total_remaining != $total_CR)){
+                $this->session->set_flashdata('alertType','failed' );
+                $this->session->set_flashdata('message','Total Is Not Match With Subtotal Please Recalulate..' );
+                redirect('payment/head_adjustment/'.$student_id.'/'.$payment_id);
+            }
+            //remaining fees validations
             
-            //input changed fields
-            // $EducationFeechanged = $this->input->post('EducationFeechanged');
-            // $TermFeechanged = $this->input->post('TermFeechanged');
-            // $ExamFeechanged = $this->input->post('ExamFeechanged');
-            // $SportFeechanged = $this->input->post('SportFeechanged');
-            // $ComputerFeechanged = $this->input->post('ComputerFeechanged');
+            if($this->input->post('TuitionFeesCR')>$this->input->post('TuitionFeesCT')){
+                $this->session->set_flashdata('alertType','failed' );
+                $this->session->set_flashdata('message','Remaining Tuition Fees should be less then Total Tuition Fees' );
+                redirect('payment/head_adjustment/'.$student_id.'/'.$payment_id);
+            }
 
             $updateData = array(
-                'education_fee' => $this->input->post('EducationFeechanged'),
-                'term_fee' => $this->input->post('TermFeechanged'),
-                'exam_fee' => $this->input->post('ExamFeechanged'),
-                'sport_fee' => $this->input->post('SportFeechanged'),
-                'computer_fee' => $this->input->post('ComputerFeechanged'), 
+                'total_amount' => $total_total,
+                'paid_amount' => $total_total - $total_remaining,
+                'modified_by' => $this->session->user_id, 
             );
 
             $this->Payment_model->update_payment($payment_id,$updateData);
 
-            $changed_data = json_encode($updateData);
+            $changed_data = $updateData;
 
-            $original_data = json_encode(array(
-                'education_fee_class' => $this->input->post('EducationFeeclass'),
-               'term_fee_class' =>  $TermFeeclass,
-                'exam_fee_class' => $this->input->post('ExamFeechanged'),
-                'sport_fee_class' => $this->input->post('SportFeechanged'),
-                'computer_fee_class' => $this->input->post('ComputerFeechanged'),
-                'education_fee_original' => $this->input->post('EducationFeeoriginal'),
-                'term_fee_original' => $this->input->post('TermFeeoriginal'),
-                'exam_fee_original' => $this->input->post('ExamFeeoriginal'),
-                'sport_fee_original' => $this->input->post('SportFeeoriginal'),
-                'computer_fee_original' => $this->input->post('ComputerFeeoriginal'),
-            ));
+            $total_OT =$this->input->post('TuitionFeesOT');
+            $total_OR =$this->input->post('TuitionFeesOR');
+
+            $original_data = array(
+                'TuitionFeesOT' => $this->input->post('TuitionFeesOT'),
+                'TuitionFeesOR' => $this->input->post('TuitionFeesOR'),
+                'total_OT' => $total_OT,
+                'total_OR' => $total_OR,
+            );
 
             $params = array(
-                'user_id' => $this->session->user_id,
-                'log_type' => 1,
+                'session_id' => $this->input->post('session_id'),
+                'payment_id' => $payment_id,
                 'student_id' => $student_id,
-                'original_data' => $original_data,
-                'changed_data' => $changed_data,
+                'class_id' => $this->input->post('class_id'),
+                'amount' => $total_OT - $total_remaining,
+                'inputs' => json_encode(array('OD'=>$original_data,'CD' => $changed_data)),
+                'created_by' => $this->session->user_id,
                 'statusID' => 1,
             );
-            
-            $sys_lod_id = $this->Payment_model->add_system_log($params);
+
+            $this->load->model('Payment_concession_model');
+            if($total_OT - $total_remaining) $sys_lod_id = $this->Payment_concession_model->add_payment_concession($params);
             //print_r($sys_lod_id);die();
 
             $this->session->set_flashdata('alertType','success' );
-            $this->session->set_flashdata('message','Heads Updated Successfully.' );
+            $this->session->set_flashdata('message','Payment Concession Added Successfully.' );
             redirect('payment/add?student_id='.$student_id);
         } else {
 
@@ -170,6 +149,13 @@ class Payment extends CI_Controller {
                 $this->session->set_flashdata('message','IDs are invalid Plz contact admin support.' );
                 redirect('payment/add?student_id='.$student_id);
             }
+
+            if(!empty(validation_errors())){
+                $this->session->set_flashdata('alertType','failed' );
+                $this->session->set_flashdata('message',validation_errors());
+                redirect('payment/add?student_id='.$student_id);
+            }
+
             //all ids check
             $data['student_data'] = $this->Student_model->get_student($student_id); //arr
             if(empty($data['student_data'])){
@@ -192,22 +178,6 @@ class Payment extends CI_Controller {
                 $this->session->set_flashdata('message','fees for class not set for this session plz add fess for class.' );
                 redirect('payment/add?student_id='.$student_id);
             }
-
-          $paymentData = $data['payment_data'];
-
-            // Fetch class fees data
-            $data['fees_data'] = $this->Fee_model->get_class_all_fees($paymentData->session_id, $paymentData->class_id);
-    
-            // If no fees data found, show an error message
-            if (empty($data['fees_data'])) {
-                // Log missing fees information
-                log_message('error', 'Fees for class ' . $paymentData->class_id . ' not set for session ' . $paymentData->session_id);
-    
-                // Set flash message and redirect
-                $this->session->set_flashdata('alertType', 'failed');
-                $this->session->set_flashdata('message', 'Fees for class ' . $paymentData->class_id . ' not set for session ' . $paymentData->session_id . '. Please add fees for this class.');
-                redirect('payment/add?student_id=' . $student_id);
-            } 
 
             $data['student_id'] = $student_id;
             $data['payment_id'] = $payment_id;

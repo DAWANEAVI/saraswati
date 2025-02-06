@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <input type="text" name="fees_for[]"  class="form-control highcontra" value="Tution Fees" readonly="true" />
+                <input type="text" name="fees_for[]"  class="form-control highcontra" value="Tuition Fees" readonly="true" />
                 <i class="form-group__bar"></i>
                 <span class="text-danger"><?php echo form_error('fees_for'); ?></span>
             </div>

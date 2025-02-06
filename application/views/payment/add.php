@@ -31,7 +31,7 @@
                     <th>SR.No</th>
                     <th>Academic Year</th>
                     <th>Class</th>
-                    <!-- <th>Heads Adjustment</th> -->
+                    <?php if(isset($this->session->userdata['submoduleAccess']->Payment_Concession) && in_array('2', $this->session->userdata['submoduleAccess']->Payment_Concession)){?><th>Payment Concession</th> <?php }?>
                     <th>Total Amount</th>
                     <th>Paid Amount</th>
                     <th>Remaining Amount</th>
@@ -46,6 +46,11 @@
                     <td><?php echo $srno; ?></td>
                     <td><?php echo $p['academic_year']; ?></td>
                     <td><?php echo $p['class_id'] ? $this->Clas_model->get_clas_name($p['class_id']) : 'Not Set'; ?></td>
+                    <?php if(isset($this->session->userdata['submoduleAccess']->Payment_Concession) && in_array('2', $this->session->userdata['submoduleAccess']->Payment_Concession)){?>
+                    <td>
+                        <a href="<?php echo site_url('payment/head_adjustment/'.$p['student_id'].'/'.$p['payment_id']); ?>" class="btn btn-secondary btn-raised btn-xs"><span class="fa fa-pencil"></span>Payment Concession</a> 
+                    </td>
+                    <?php }?>
                     <td><?php echo $p['total_amount']; ?></td>
                     <td><?php echo $p['paid_amount']; ?></td>
                     <td><?php echo $p['total_amount'] - $p['paid_amount']; ?></td>

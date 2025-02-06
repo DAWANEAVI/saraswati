@@ -26,12 +26,15 @@
       <div class="form-group">
         <select required="" id="section_o" name="section_id" class="form-control select2">
           <option value="">Select Section</option>
-          <?php
+          <?php 
+          if($this->input->get('section_id')){
+
             foreach($all_section as   $section )
             {
                 $selected = ($section['section_id'] == $this->input->get('section_id')) ? ' selected="selected"' : ""; 
                     echo '<option value="'.$section['section_id'].'" '.$selected.'>'.$section['section_name'].'</option>'; 
             } 
+           } 
           ?>
         </select>
         <span class="text-danger"><?php echo form_error('section_id');?></span>
@@ -42,10 +45,13 @@
         <div class="form-group">
             <select required="" id="examID" name="examID" class="form-control select2"> 
             <option value="">Select Exam</option>
-            <?php foreach($acadamic_exams as  $exams){
-            $selected = ($exams['examID'] == $this->input->get('examID')) ? ' selected="selected"' : ""; 
-            echo '<option value="'.$exams['examID'].'" '.$selected.'>'.$exams['examName'].'</option>'; 
-            } ?>
+            <?php
+            if($this->input->get('examID')){
+                foreach($acadamic_exams as  $exams){
+                $selected = ($exams['examID'] == $this->input->get('examID')) ? ' selected="selected"' : ""; 
+                echo '<option value="'.$exams['examID'].'" '.$selected.'>'.$exams['examName'].'</option>'; 
+                } 
+            }?>
             </select>
             <span class="text-danger"><?php echo form_error('examID');?></span>
         </div>

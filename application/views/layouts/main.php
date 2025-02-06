@@ -449,20 +449,16 @@ if (!$this->session->userdata('is_login')) {
                             </li>
                         <?php } ?>
 
-                        <?php if (isset($moduleAccess) && in_array('EXAM', $moduleAccess) ) { ?>
-                            <li class="navigation__sub">
-                                <a href="#"><i class="zmdi zmdi-assignment"></i>Attendance</a>
-                                <ul>
-                                <?php if(isset($submoduleAccess->Attendance_Setup) && in_array('1', $submoduleAccess->Attendance_Setup)){?><li><a href="<?php echo site_url('Attendance_student/index'); ?>">Attendance Setup</a></li><?php }?>
-                                <?php if(isset($submoduleAccess->Holiday_Setup) && in_array('2', $submoduleAccess->Holiday_Setup)){?><li><a href="<?php echo site_url('Attendance_student/add_holiday'); ?>">Holiday Setup</a></li><?php } ?>
-                               
-                                <!--<?php if(isset($submoduleAccess->Paper_Setup) && in_array('1', $submoduleAccess->Paper_Setup)){?><li><a href="<?php echo site_url('Exam_subjectPaper/index'); ?>">Paper Setup</a></li><?php }?>
-                                <?php if(isset($submoduleAccess->Exam_Result) && in_array('1', $submoduleAccess->Exam_Result)){?><li><a href="<?php echo site_url('Exam_studentPapers/examResult'); ?>">Exam Result</a></li><?php }?>
-                                <?php if(isset($submoduleAccess->Attendance_N_Weight) && in_array('1', $submoduleAccess->Attendance_N_Weight)){?> <li><a href="<?php echo site_url('Exam_studentPapers/attendanceWeight'); ?>">Attendance & Weight</a></li><?php }?>
-                                <?php if(isset($submoduleAccess->Final_Result) && in_array('1', $submoduleAccess->Final_Result)){?><li><a href="<?php echo site_url('Exam_studentPapers/studentResult'); ?>">Final Result</a></li><?php }?>
-                        -->
-                                </ul>
-                            </li>
+                        <?php if (isset($moduleAccess) && in_array('SMSM', $moduleAccess) ) { ?>
+                        <li class="navigation__sub">
+                            <a href="#"><i class="fas fa-hiking"></i>Attendance</a>
+                            <ul>
+                                <?php if(isset($submoduleAccess->Manage_SMS) && in_array('1', $submoduleAccess->Manage_SMS)){?><li><a href="<?= site_url('attendance_students/index') ?>">Student Attendace</a></li> <?php }?>
+                                <!-- <?php if(isset($submoduleAccess->Manage_SMS) && in_array('2', $submoduleAccess->Manage_SMS)){?><li><a href="<?= site_url('attendance_leave/index') ?>">Student Leaves</a></li> <?php }?> -->
+                                <?php if(isset($submoduleAccess->Manage_SMS) && in_array('2', $submoduleAccess->Manage_SMS)){?><li><a href="<?= site_url('attendance_holidays/index') ?>">Holidays</a></li> <?php }?>
+                                <?php if(isset($submoduleAccess->Manage_SMS) && in_array('2', $submoduleAccess->Manage_SMS)){?><li><a href="<?= site_url('attendance_students/attendanceMonthlyReport') ?>">Monthly Report</a></li> <?php }?>
+                            </ul>
+                        </li>
                         <?php } ?>
 
 
@@ -484,7 +480,6 @@ if (!$this->session->userdata('is_login')) {
                                 <a href="#"><i class="zmdi zmdi-collection-item"></i>Reports</a>
 
                                 <ul>
-                                <?php if(isset($submoduleAccess->Old_Student) && in_array('1', $submoduleAccess->Old_Student)){?><li><a href="<?= site_url('Report/students_attendance_report') ?>">Student Attendance Report</a></li><?php } ?>
                                     <?php if(isset($submoduleAccess->Student_information) && in_array('1', $submoduleAccess->Student_information)){?><li><a href="<?= site_url('report/studentInfoReport') ?>"> Student Information Report</a></li> <?php } ?>
                                     <?php if(isset($submoduleAccess->Old_Student) && in_array('1', $submoduleAccess->Old_Student)){?><li><a href="<?= site_url('report/oldstudentReport') ?>">Old Student Report</a></li><?php } ?>
                                     <?php if(isset($submoduleAccess->Date_Wise_Payment) && in_array('1', $submoduleAccess->Date_Wise_Payment)){?><li><a href="<?= site_url('report/payment') ?>">Date wise Payment </a></li><?php } ?>

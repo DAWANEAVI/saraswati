@@ -1,71 +1,8 @@
 <?php 
-if($old_heads) {
-$attribute = array('class'=>'form','id' =>'inputForm');
-echo form_open('payment/head_adjustment_old/'.$student_id, $attribute); ?>
-<div class="card-body">
-    <h3 class="box-title text-center">Student Name : <?= strtoupper($student_data['fullname']) ?></h3>
-    <div class="row clearfix">
-
-        <div class="col-md-12">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Sr No</th>
-                        <th>Academic Year</th>
-                        <th>Total Fees</th>
-                        <th>Paid Fees</th>
-                        <th>Remaining Fees</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-                        <td rowspan="2"><?= 1 ?></td>
-                        <td><?= 'Old Fees + Corona Session' ?></td>
-                        <td><?= $student_data['old_fees'] ?></td>
-                        <td><?= $student_data['paid_fees']?></td>
-                        <td><?= $student_data['old_fees'] - $student_data['paid_fees'] ?></td>
-                        <input type="hidden" id="old_fees_original" name="old_fees_original" value="<?php echo $student_data['old_fees']; ?>">
-                        <input type="hidden" name="paid_fees_original" value="<?php echo $student_data['paid_fees']; ?>">
-                    </tr>
-                    <tr>
-                        
-                        <td>Corrections ----- ></td>
-                        <td>
-                            <input type="number" id="old_fees" name="old_fees" value="<?php echo $student_data['old_fees']; ?>" class="form-control amount"  placeholder="Enter <?= 'old fees' ?> Amount" data-rule-required="true">
-                            <span class="text-danger"><?php echo form_error('old_fees'); ?></span></td>
-                        <td>
-                            <input type="number" id="paid_fees" name="paid_fees" value="<?php echo $student_data['paid_fees']; ?>" class="form-control amount"  placeholder="Enter Paid Fees Amount" data-rule-required="true">
-                            <span class="text-danger"><?php echo form_error('paid_fees'); ?></span>
-                        </td>
-                        <td>
-                            <input readonly="true" type="number" id="remaining_fees" name="remaining_fees" value="<?php echo $student_data['old_fees'] - $student_data['paid_fees']; ?>" class="form-control"  placeholder="Enter Remaining Amount" data-rule-required="true">
-                            <span class="text-danger"><?php echo form_error('remaining_fees'); ?></span>
-                        </td>
-                    </tr>
-
-
-                </tbody>
-
-            </table>
-        </div>
-
-    </div>
-    <div class="box-footer text-center">
-
-        <button  type="submit"  class="btn btn-success btn-raised"><i class="fa fa-check"></i> Save</button>
-
-    </div>
-</div>
-
-<?php echo form_close(); ?>
-
-<?php }else{ ?>
-<?php 
 $attribute = array('class'=>'form','id' =>'inputFormNew');
 echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribute); ?>
 <div class="card-body">
-    <h3 class="box-title text-center">Fees Head Adjustment </h3>
+    <h3 class="box-title text-center">Fee Concession </h3>
     <div class="row clearfix">
 
         <div class="col-md-12">
@@ -105,8 +42,8 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                 <th>S.N.</th>
                 <th>Heads</th>
                 <th>Class Fees</th>
+                <th>Student Total Amount</th>
                 <th>Student Remaining Amount</th>
-                <th>Adjust Remaining Amount</th>
                 </thead>
                 <tbody>
 
@@ -114,6 +51,7 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                     $count = 1;
                     $total = 0;
                     $total_class = 0;
+                    $total_student = 0;
                     foreach ($fees_data as $k => $v) {
                         $total = $total + $v['amount'];
                         ?>
@@ -122,37 +60,39 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                             <th><?= $v['fees_for'] ?></th>
 
                             <td>
-                                <span><?php echo $v['amount'] ?>
-                                <input id="<?php echo  str_replace(' ', '', $v['fees_for']).'class'; ?>" type="hidden" name="<?php echo str_replace(' ', '', $v['fees_for']).'class'; ?>" value="<?php echo $v['amount'] ?>">
+                                <input id="<?php echo  str_replace(' ', '', $v['fees_for']).'class'; ?>" type="number" class="form-control" name="<?php echo str_replace(' ', '', $v['fees_for']).'class'; ?>" value="<?php echo $v['amount'] ?>" readonly="">
+                                <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'class'); ?></span>
                             </span></td>
                             <th>
-                                <?php if ($v['fees_for'] == "Education Fee") {
+                                <?php 
+                                switch ($v['fees_for']) {
+                                    case 'Tuition Fees':
+                                        $x = $payment_data->total_amount;
+                                        $y = $payment_data->total_amount;
+                                        break;
+                                    
+                                    default:
+                                        # code...
+                                        break;
+                                }
 
-                                    $x = $payment_data->education_fee;
-                                } 
-                                if ($v['fees_for'] == "Term Fee") {
-                                $x = $payment_data->term_fee;
-                                } 
-                                if ($v['fees_for'] == "Exam Fee") {
-                                    $x = $payment_data->exam_fee;
-                                } 
-                                if ($v['fees_for'] == "Sport Fee") {
-                                    $x = $payment_data->sport_fee;
-                                } 
-                                if ($v['fees_for'] == "Computer Fee") {
-                                    $x = $payment_data->computer_fee;
-                                } 
                                 ?>
-                                <input id="<?php echo  str_replace(' ', '', $v['fees_for']).'r'; ?>" type="text" class="form-control" name="<?php echo str_replace(' ', '', $v['fees_for']).'original'; ?>" value="<?php echo $x; ?>" readonly>
+                                <input id="<?php echo  str_replace(' ', '', $v['fees_for']).'CT'; ?>" type="text" class="form-control total_amount" name="<?php echo str_replace(' ', '', $v['fees_for']).'CT'; ?>" value="<?php echo $y; ?>" required="">
+                                <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'CT'); ?></span>
+                                
                             </th>
                             <td>
-                                <input type="number" id="<?php echo str_replace(' ', '', $v['fees_for']).'changed'; ?>" name="<?php echo str_replace(' ', '', $v['fees_for']).'changed'; ?>" value="<?php echo $this->input->post(str_replace(' ', '', $v['fees_for'])); ?>" class="form-control amount"  placeholder="Enter Adjusted <?= $v['fees_for'] ?>" data-rule-required="true">
-                                <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'changed'); ?></span>
+                                <input type="text" id="<?php echo str_replace(' ', '', $v['fees_for']).'CR'; ?>" name="<?php echo str_replace(' ', '', $v['fees_for']).'CR'; ?>" value="<?php echo $payment_data->total_amount  - $payment_data->paid_amount; ?>" class="form-control amount"  data-rule-required="true">
+
+                                <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'CR'); ?></span>
                             </td>
+                            <input type="hidden" name="<?php echo str_replace(' ', '', $v['fees_for']).'OT'; ?>"value="<?php echo $x; ?>">
+                            <input type="hidden" name="<?php echo str_replace(' ', '', $v['fees_for']).'OR'; ?>" value="<?php echo $x; ?>">
 
                         </tr>
                         <?php
                         $total_class = $total_class + $x;
+                        $total_student = $total_student + $y;
                         $count++;
                     }
                     ?>
@@ -161,21 +101,23 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                         <th>#</th>
                         <th>Total</th>
                         <th><?= $total; ?></th>
-                        <th><?= $total_class ?></th>
+                        <th><input readonly="true" type="text" name="total_total" value="<?= $total_student ?>" id="total_total" class="form-control highcontra"></th>
                         <th>
-                            <input readonly="true" type="text" name="total" value="0" id="total" class="form-control highcontra">
+                            <input readonly="true" type="text" name="total_remaining" value="<?= $payment_data->total_amount  - $payment_data->paid_amount ?>" id="total" class="form-control highcontra">
                             <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
                             <input type="hidden" name="payment_id" value="<?php echo $payment_id; ?>">
+                            <input type="hidden" name="session_id" value="<?php echo $payment_data->session_id; ?>">
+                            <input type="hidden" name="class_id" value="<?php echo $payment_data->class_id; ?>">
                         </th>
-                    <tr>
+                    <!-- <tr>
                         <td></td>
                         <td colspan="3">
                             <label>Remark</label>
                             <div class="form-group">
-                                <input class="form-control"type="text" name="remark">
+                                <input class="form-control"  type="text" name="remark">
                             </div>
                         </td>
-                    </tr>
+                    </tr> -->
 
                 </tbody>
             </table>
@@ -193,61 +135,48 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
 </div>
 
 <?php echo form_close(); ?>
-<?php } ?>
 
 
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-
-<?php if($old_heads) { ?>
 <script>
-    $(".amount").change(function(){
-        var old_fees = $("#old_fees").val();
-        var paid_fees = $("#paid_fees").val();
-        
-        // if(old_fees < paid_fees){
-        //     var test = 'Enter valid paid amount';
-        //     $("#paid_fees").next("span").append(test);
-        // }else{
-        //     $("#paid_fees").next("span").empty();
-        // }
-
-        $("#remaining_fees").val(old_fees - paid_fees);
-
+$(document).ready(function() {
+    $(".total_amount").on('change', function () {
+        var element = $(".total_amount");
+        var total = 0
+        $.each(element, function (index, item) {
+            total = total + parseInt($(item).val() || 0);
+        });
+        $("#total_total").val(total)
     });
-</script>
-<script>
-$(document).ready(function() {
-  $("#inputForm").validate({
+
+
+    $("#inputFormNew").validate({
     rules: {
-      old_fees: {
+      TuitionFeesCT: {
         required: true,
-        //range: [0, $("#EducationFeer").val()]
+        number: true,
+        range: [0, $("#TuitionFeesclass").val()]
       },
-      paid_fees: {
+      TuitionFeesCR: {
         required: true,
-        //range: [0, $("#old_fees").val()]
-      },
-      remaining_fees: {
-        required: true,
-        //range: [0, $("#old_fees").val()]
+        number: true,
+        //range: [0, $("#TuitionFeesCT").val()]
       }
     },
     messages: {		
-        old_fees: {
+        TuitionFeesCT: {
             required: "This field is required.",
-            //range: "Enter Valid Paying Amount"
+            range: "Enter Valid Amount",
+            number: "Enter Only Numbers",
         },
-        paid_fees: {
+        TuitionFeesCR: {
             required: "This field is required.",
-            range: "Enter Valid Paid Fees"
-        },
-        remaining_fees: {
-            required: "This field is required.",
-            range: "Enter Valid Remaining Fees"
+            range: "Enter Valid Amount",
+            number: "Enter Only Numbers",
         }
-	},
+    },
     highlight: function (element, errorClass, validClass) {
       $(element).addClass('has-error');
       //$( element ).next( "span" ).html(error);
@@ -262,74 +191,6 @@ $(document).ready(function() {
       //$('#loading').css('visibility', 'visible');
       form.submit();
     }
-  });
+    });
 });
 </script>
-
-<?php }else{?>
-
-<script>
-$(document).ready(function() {
-  $("#inputFormNew").validate({
-    rules: {
-      EducationFeechanged: {
-        required: true,
-        range: [0, $("#EducationFeeclass").val()]
-      },
-      TermFeechanged: {
-        required: true,
-        range: [0, $("#TermFeeclass").val()]
-      },
-      ExamFeechanged: {
-        required: true,
-        range: [0, $("#ExamFeeclass").val()]
-      },
-      SportFeechanged: {
-        required: true,
-        range: [0, $("#SportFeeclass").val()]
-      },
-      ComputerFeechanged: {
-        required: true,
-        range: [0, $("#ComputerFeeclass").val()]
-      }
-    },
-    messages: {		
-        EducationFeechanged: {
-            required: "This field is required.",
-            range: "Enter Valid Amount"
-        },
-        TermFeechanged: {
-            required: "This field is required.",
-            range: "Enter Valid Amount"
-        },
-        ExamFeechanged: {
-            required: "This field is required.",
-            range: "Enter Valid Amount"
-        },
-        SportFeechanged: {
-            required: "This field is required.",
-            range: "Enter Valid Amount"
-        },
-        ComputerFeechanged: {
-            required: "This field is required.",
-            range: "Enter Valid Amount"
-        }
-	},
-    highlight: function (element, errorClass, validClass) {
-      $(element).addClass('has-error');
-      //$( element ).next( "span" ).html(error);
-    },
-    unhighlight: function (element, errorClass, validClass) {
-      $(element).removeClass('has-error');
-    },
-    errorPlacement: function(error,element) {
-      error.appendTo( element.next("span") );
-    },
-    submitHandler: function(form) {
-      //$('#loading').css('visibility', 'visible');
-      form.submit();
-    }
-  });
-});
-</script>
-<?php } ?>
