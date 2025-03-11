@@ -733,6 +733,83 @@ class Payment extends CI_Controller {
         }
     }
 
+    function insert_inital_payment_data() {
+    
+        $all_class = $this->Clas_model->get_all_class();
+        $current_session_data = $this->Academic_year_model->check_active_session();
+        $session_id = $current_session_data['session_id'];
+    
+        foreach ($all_class as $key => $cvalue) {
+            $class_students = $this->Student_model->getStudentBySessionAndClass($session_id,$cvalue['class_id']);
+            
+            $fees = $this->Fee_model->getFeeBySessionClass($session_id, $cvalue['class_id']);
+            if(empty($fees)){
+                return print_r("Fees Not Set For Class".$cvalue['class_id']); die();
+            }
+
+            $totalfees=0;
+            if (!empty($fees)) {
+                foreach ($fees as $key => $value) {
+                switch ($value->fees_for) {
+                    // case 'Admission Fees':
+                    //     $admission_fee = $value->amount;
+                    //     $totalfees = $totalfees + $value->amount;
+                    //     break;
+                    case 'Tuition Fees':
+                        $tuition_fee = $value->amount;
+                        $totalfees = $totalfees + $value->amount;
+                        break;
+                    // case 'Term Fees':
+                    //     $term_fee = $value->amount;
+                    //     $totalfees = $totalfees + $value->amount;
+                    //     break;
+                    default:
+                        # code...
+                        break;
+                }
+                }
+                
+            }
+
+            
+            if(!empty($class_students)){
+                foreach ($class_students as $skey => $svalue) {
+                    $payment_parameter = array(
+                        'student_id' => $svalue['student_id'],
+                        'academic_year' => $current_session_data['session'],
+                        'session_id' => $session_id,
+                        'class_id' => $cvalue['class_id'],
+                        'total_amount' => $totalfees,
+                        'paid_amount' => 0,
+                        // 'admission_fee' => $admission_fee,
+                        // 'total_admission_fee' => $admission_fee,
+                        // 'tuition_fee' => $tuition_fee,
+                        // 'total_tuition_fee' => $tuition_fee,
+                        // 'term_fee' => $term_fee,
+                        // 'total_term_fee' => $term_fee,
+                        'late_fee' => 0,
+                        'payment_seq' => 0,
+                        'sync' =>0,
+                        'created_by' => $this->session->user_id,
+                        'statusID' => 1,    
+                    );
+
+                    //rte fees setting
+
+                    // if($svalue['rte_applicable'] == 1){
+                    // $payment_parameter['total_amount'] = $fees->amount;
+                    // }
+    
+                    $payment_id = $this->Payment_model->add_payment($payment_parameter);
+                }
+
+            }
+            
+        }
+
+        return print_r("OK");
+    }
+
     
     
 

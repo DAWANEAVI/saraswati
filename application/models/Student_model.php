@@ -206,4 +206,14 @@ class Student_model extends CI_Model
         $this->db->where('is_active',1);
         return $this->db->get()->result_array();
     }
+
+    function getStudentBySessionAndClass($session_id,$class_id){
+        $this->db->select('*');
+        $this->db->from('student');
+        $this->db->where('class_id',$class_id);
+        $this->db->where('session_id',$session_id);
+        $this->db->where('is_active',1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

@@ -19,8 +19,7 @@ class Report extends CI_Controller {
         $this->load->model('Report_model');
         $this->load->model('Clas_model');
         $this->load->model('Academic_year_model');
-        $this->load->model('Academic_year_model');
-        $this->load->model('Attendance_Student_model');
+        $this->load->model('Attendance_students_model');
     }
 
     function studentInfoReport() {
