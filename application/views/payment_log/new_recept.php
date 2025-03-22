@@ -25,16 +25,22 @@
     .extra-big{
         font-size: 30px !important;
     }
-</style>
-
-<style type="text/css" media="print">
-    @page {
-        margin-top:-65px !important;
+    @media print{ 
+        @page {
+            size: A4;
+            margin-top:-70px!important;
+        
+            padding:0px 0px 0px 0px !important;
+        /* margin-top: -35px !important;
         margin-left:0px !important;
         margin-right:0px !important;
         margin-bottom:0px !important;
-        padding:0px !important;       /* this affects the margin in the printer settings */
+        padding:0px !important;       this affects the margin in the printer settings */
+       }
     }
+</style>
+
+<style type="text/css" media="print">
     .invoice{
         min-width: 80%;
         margin:0px !important;
@@ -52,7 +58,6 @@
     }
 
     
-</style>
 </style>
 
 
@@ -151,12 +156,9 @@
                     <tr class="text-justify" style="background-color:#fff; margin: 0px 30px; line-height: 2.1rem!important;">
                         <td colspan="4">
                             
-                            <div style="margin:0px 60px; display: flex; justify-content: center; ">
-                            
-                                <i>&emsp; &emsp; &emsp; &emsp;The name of student  <b><span class="line"><?php echo strtoupper($payment_log->fullname); ?> </span></b>
-                                Std. <b><span class="line"><?= $payment_log->numeric_name ?> </span></b> Term fees/ Tution fees for the month of  in words Rs. <b><span class="line"><?php echo $convertor->convert_number($payment_log->tuitionfees); ?> </span></b>.
-                        
-                            </i>
+                            <div style="margin:0px 60px;">
+
+                            <i>&emsp; &emsp; &emsp; &emsp;The name of the student is<b><span class="line"><?php echo strtoupper($payment_log->fullname); ?></span></b>, studying in class<b><span class="line"><?= $payment_log->numeric_name ?></span></b>. <?php echo $payment_log->gender == 'Female' ? 'She' : 'He' ; ?> has paid the Term/Tuition fees of Rs. <b><span class="line"><?php echo $convertor->convert_number($payment_log->tuitionfees); ?> </span></b> (in words) for the Academic Year <b><?php echo $payment_log->academic_year;?></b>. </i>
                             
                             </div>
                         </td>
@@ -187,7 +189,7 @@
         <td rowspan="2" style="vertical-align: middle !important; padding: 0.2rem 1rem;">
         <br />
             <h4 class="text-left">
-                <span style="margin-left: 150px; font-style: italic; font-weight: bold; font-size: 25px;">Thanks</span>
+                <span style="margin-left: 150px; font-style: italic; font-weight: bold; font-size: 25px;">Thanks.</span>
             </h4>
         </td>
     </tr>
@@ -217,7 +219,7 @@
     <tr class="text-justify" style="line-height: 3.1rem!important; background-color:#fff;">
         
         <td style="width:100% !important; border:2px solid grey;" class="text-center">
-        <h6 class="text-right">Parents Copy</h6>
+        <h6 class="text-right">School Copy</h6>
         <table style="margin-top: 0px;margin-bottom: -10px;">
                 <tbody>
                     <tr>
@@ -304,9 +306,8 @@
                         
                         <div style="margin:0px 60px; display: flex; justify-content: center; ">
                         
-                            <i>&emsp; &emsp; &emsp; &emsp;The name of student  <b><span class="line"><?php echo strtoupper($payment_log->fullname); ?> </span></b>
-                            Std. <b><span class="line"><?= $payment_log->numeric_name ?> </span></b> Term fees/ Tution fees for the month of  in words Rs. <b><span class="line"><?php echo $convertor->convert_number($payment_log->tuitionfees); ?> </span></b>.
-                    
+                        <i>&emsp; &emsp; &emsp; &emsp;The name of the student is<b><span class="line"><?php echo strtoupper($payment_log->fullname); ?></span></b>, studying in class<b><span class="line"><?= $payment_log->numeric_name ?></span></b>. 
+                        <?php echo $payment_log->gender == 'Female' ? 'She' : 'He' ; ?> has paid the Term/Tuition fees of Rs. <b><span class="line"><?php echo $convertor->convert_number($payment_log->tuitionfees); ?> </span></b> (in words) for the Academic Year <b><?php echo $payment_log->academic_year;?></b>. 
                         </i>
                         
                         </div>
@@ -338,7 +339,7 @@
     <td rowspan="2" style="vertical-align: middle !important; padding: 0.2rem 1rem;">
     <br />
         <h4 class="text-left">
-            <span style="margin-left: 150px; font-style: italic; font-weight: bold; font-size: 25px;">Thanks</span>
+            <span style="margin-left: 150px; font-style: italic; font-weight: bold; font-size: 25px;">Thanks.</span>
         </h4>
     </td>
 </tr>

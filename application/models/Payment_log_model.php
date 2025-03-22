@@ -16,7 +16,7 @@ class Payment_log_model extends CI_Model
      */
     function get_payment_log($payment_log_id)
     {
-        $this->db->select('p.paid_amount,p.academic_year,p.payment_id,pl.month,pl.to_month,pl.session_id,pl.payment_session,pl.reciept_no,pl.tuitionfees,pl.late_fee,(pl.tuitionfees+pl.late_fee) as total,pl.remark,pl.created_at,pl.payment_log_id,s.fullname,s.mobile_no,c.numeric_name,sec.section_name,c.class_id');
+        $this->db->select('p.paid_amount,p.academic_year,p.payment_id,pl.month,pl.to_month,pl.session_id,pl.payment_session,pl.reciept_no,pl.tuitionfees,pl.late_fee,(pl.tuitionfees+pl.late_fee) as total,pl.remark,pl.created_at,pl.payment_log_id,s.fullname,s.mobile_no,c.numeric_name,sec.section_name,c.class_id,s.gender');
         $this->db->from('payment_log pl');
         $this->db->join('payments p','pl.payment_id=p.payment_id','inner');
         $this->db->join('student s','p.student_id=s.student_id','inner');

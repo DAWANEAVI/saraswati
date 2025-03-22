@@ -46,7 +46,7 @@ class Bonafide extends CI_Controller {
 
             $bonafide_id = $this->Bonafide_model->add_bonafide_certificate($params);
             $bona_param = array(
-                'bona_no' => 'LBEHJCS-' . $bonafide_id,
+                'bona_no' => 'SPEMSB-' . $bonafide_id,
             );
             $this->Bonafide_model->update_bonafide_certificate($bonafide_id, $bona_param);
 
@@ -122,6 +122,7 @@ class Bonafide extends CI_Controller {
     function view($bonafide_id) {
         $data['bonafide_certificate'] = $this->Bonafide_model->get_bonafide_certificate($bonafide_id);
         $data['student'] = $this->Student_model->getStudentData($data['bonafide_certificate']['student_id']);
+        //print_r($data['student']);die;
         $data['_view'] = 'bonafide/view';
         $this->load->view('layouts/main', $data);
     }

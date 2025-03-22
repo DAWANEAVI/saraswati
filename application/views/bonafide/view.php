@@ -61,15 +61,15 @@ function numberToRomanRepresentation($number) {
              <img style="width:80px;height:80px;" class="invoice__logo" src="<?= site_url('resources/img/') ?>logo.png" alt=""><br style="display:block !important;">
                 <br style="display:block !important;white-space:nowrap;">
                 <td colspan="2" class="text-center" style="line-height:1.5; padding:0px;">
-                       <b style="font-size:20px;">Sardar Patel Vidya Mandir, Yavatmal</b> 
-                             &nbsp;Regd No. MH 2582 (Y) F2530-1992<br>
+                       <span style="font-size:18px;">Run Under Sardar Patel Vidya Mandir, Yavatmal</sapn> 
+                             <br>
                 <h3 class="school-name" style="line-height:1.5; margin:0; white-space:nowrap;">
                          SARASWATI PUBLIC ENGLISH MEDIUM SCHOOL BABHULGAON
                 </h3>
                 <h6><span style="font-size: 20px; text-align: left; margin-left: -140px; line-height:1.5; text-transform: none;"><b>Dist. Yavatmal</b></span></h6>
                <!-- <h6 style="line-height:0.8; text-align: left; margin-left: 10px;" class="text-center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E-mail: <span class="line"><?= 'saraswatips@gmail.com' ?></span></h6> -->
-               <h6 style="line-height: 0.8; text-align: left; margin-left: 170px;" class="text-center;">E-mail: <span class="line"><?= 'saraswatips@gmail.com' ?></span>
-</h6>
+               <!-- <h6 style="line-height: 0.8; text-align: left; margin-left: 170px;" class="text-center;">E-mail: <span class="line"><?= 'saraswatips@gmail.com' ?></span>
+</h6> -->
 
             </td>
              <td colspan="2"class="text-right">&nbsp;</td>
@@ -78,15 +78,17 @@ function numberToRomanRepresentation($number) {
        
         
         <tr>
-           
-        <td colspan="2"><b>School Recog No:</b></td>
-           
+            <td colspan="2"><b>School Recog No : MH 2582 (Y) F2530-1992</b></td>
+            <td colspan="2"class="text-right"> <b>Phone No: 9767116089</b></td>
+        </tr>
+        <tr>
+            <td colspan="2"><b>Bonfide No : <?= $bonafide_certificate['bona_no']; ?> </b></td>
             <td colspan="2"class="text-right"> <b>UDISE NO: 271402005110</b></td>
         </tr>
 
         <tr>
            
-            <td colspan="2" style="text-align: left; padding-right: 10px;"> <b>Bonfide No:<?= $bonafide_certificate['bona_no']; ?> </b></td>
+            <td colspan="2" style="text-align: left; padding-right: 10px;"> <b>General /Register No : <?= $student->registration_no; ?> </b></td>
            
             <td colspan="2"class="text-right"> <b>Date : <?= date('d-m-Y', strtotime($bonafide_certificate['date'])); ?></b></td>
         </tr>
@@ -112,12 +114,11 @@ function numberToRomanRepresentation($number) {
             <tr>
                 <!-- Left side paragraph content -->
                 <td style="vertical-align: top;padding-left: 40px;">
-                    <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;"><i>&emsp;&emsp;This is to Certify that Kumar / Kumari<b><span class="line"><?= $bonafide_certificate['fullname']; ?></span></b>
-                    is / was a bonafide</p>
+                    <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;"><i>&emsp;This is to Certify that <?php echo $student->gender == "Female" ? 'Kumari': 'Kumar';?><b><span class="line"><?= $bonafide_certificate['fullname']; ?></span></b>
+                    is a bonafide</p>
                     <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;">Student of this School for the Academic Session<b><span class="line"><?= $bonafide_certificate['session']; ?></span></b>.</p>
-                    <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;">&emsp;&emsp;He / She is in Class<b><span class="line"><?= $bonafide_certificate['class']; ?></span></b> he /
-                    she has a good character to my knowledge. </p>
-                    <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;"> According to our school record her / his caste is <b><span class="line"><?= $bonafide_certificate['caste']; ?></span></b> and her / his date of birth</p><p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;">is<b><span class="line"><?= date('d-m-Y', strtotime($bonafide_certificate['dob'])); ?></span></b>
+                    <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;"><?php echo $student->gender == "Female" ? 'She': 'He';?> is in Class<b><span class="line"><?= $bonafide_certificate['class']; ?></span></b> <?php echo $student->gender == "Female" ? 'she': 'he';?> has a good character to my knowledge. </p>
+                    <p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;"> According to our school record <?php echo $student->gender == "Female" ? 'her': 'his';?> caste is <b><span class="line"><?= $bonafide_certificate['caste']; ?></span></b> and <?php echo $student->gender == "Female" ? 'her': 'his';?> date of birth</p><p style="line-height: 1.0em;text-indent: 40px; padding-left: 40px;">is<b><span class="line"><?= date('d-m-Y', strtotime($bonafide_certificate['dob'])); ?></span></b>
                     (in words)<b><span class="line">
                     <?php $date_data = explode('-',  $bonafide_certificate['dob']); 
                     $convertor = new Numbertowords();?>

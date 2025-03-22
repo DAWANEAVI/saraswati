@@ -31,56 +31,56 @@ class Clas_model extends CI_Model
 {
     // Fetch data from the database
    $this->db->select('class_id, class_name, numeric_name');
-   $this->db->order_by('class_name','ASC');
-    $query = $this->db->get('class');
+   $this->db->order_by('class_id','DESC');
+   $query = $this->db->get('class');
    // print_r($query);
 
    if (!$query || $query->num_rows() == 0) {
     return []; // Return an empty array if no data is found or query fails
-}
+   }
 
     $classes = $query->result_array();  // Get results as an array
 
-    // Custom sorting logic
-    usort($classes, function ($a, $b) {
-        // Check if both are alphabetic (not numeric)
-        $is_a_numeric = is_numeric($a['numeric_name']);
-        $is_b_numeric = is_numeric($b['numeric_name']);
+    // // Custom sorting logic
+    // usort($classes, function ($a, $b) {
+    //     // Check if both are alphabetic (not numeric)
+    //     $is_a_numeric = is_numeric($a['numeric_name']);
+    //     $is_b_numeric = is_numeric($b['numeric_name']);
 
-        // Case 1: Both are alphabetic (not numeric)
-        if (!$is_a_numeric && !$is_b_numeric) {
-            // Handle 'Nursery' as special case: always comes first
-            if ($a['numeric_name'] == 'Nursery' && $b['numeric_name'] != 'Nursery') {
-                return -1;  // 'Nursery' comes first
-            }
-            if ($b['numeric_name'] == 'Nursery' && $a['numeric_name'] != 'Nursery') {
-                return 1;   // 'Nursery' comes first
-            }
+    //     // Case 1: Both are alphabetic (not numeric)
+    //     if (!$is_a_numeric && !$is_b_numeric) {
+    //         // Handle 'Nursery' as special case: always comes first
+    //         if ($a['numeric_name'] == 'Nursery' && $b['numeric_name'] != 'Nursery') {
+    //             return -1;  // 'Nursery' comes first
+    //         }
+    //         if ($b['numeric_name'] == 'Nursery' && $a['numeric_name'] != 'Nursery') {
+    //             return 1;   // 'Nursery' comes first
+    //         }
 
-            // Sort alphabetic names in ascending order based on string length (and lexicographically if needed)
-            $len_a = strlen($a['numeric_name']);
-            $len_b = strlen($b['numeric_name']);
+    //         // Sort alphabetic names in ascending order based on string length (and lexicographically if needed)
+    //         $len_a = strlen($a['numeric_name']);
+    //         $len_b = strlen($b['numeric_name']);
             
-            if ($len_a == $len_b) {
-                // If lengths are the same, sort lexicographically (alphabetically)
-                return strcmp($a['numeric_name'], $b['numeric_name']);
-            }
+    //         if ($len_a == $len_b) {
+    //             // If lengths are the same, sort lexicographically (alphabetically)
+    //             return strcmp($a['numeric_name'], $b['numeric_name']);
+    //         }
 
-            // Sort by length in ascending order
-            return $len_a - $len_b;
-        }
+    //         // Sort by length in ascending order
+    //         return $len_a - $len_b;
+    //     }
 
-        // Case 2: One is alphabetic and the other is numeric
-        if (!$is_a_numeric && $is_b_numeric) {
-            return -1;  // Alphabetic comes first
-        }
-        if ($is_a_numeric && !$is_b_numeric) {
-            return 1;   // Alphabetic comes first
-        }
+    //     // Case 2: One is alphabetic and the other is numeric
+    //     if (!$is_a_numeric && $is_b_numeric) {
+    //         return -1;  // Alphabetic comes first
+    //     }
+    //     if ($is_a_numeric && !$is_b_numeric) {
+    //         return 1;   // Alphabetic comes first
+    //     }
 
-        // Case 3: Both are numeric, sort them in descending order
-        return (int)$b['numeric_name'] - (int)$a['numeric_name'];
-    });
+    //     // Case 3: Both are numeric, sort them in descending order
+    //     return (int)$b['numeric_name'] - (int)$a['numeric_name'];
+    // });
 
     return $classes;  // Return the sorted array
 }

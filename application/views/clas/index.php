@@ -17,7 +17,7 @@
 						<td><?php echo $c['numeric_name']; ?></td>
 						<td>
                             <?php if(isset($this->session->userdata['submoduleAccess']->Manage_Class_N_Section) && in_array('3', $this->session->userdata['submoduleAccess']->Manage_Class_N_Section)){?><a href="<?php echo site_url('clas/edit/'.$c['class_id']); ?>" class="btn btn-info btn-xs btn--raised"><span class="fa fa-pencil"></span> Edit</a> <?php } ?>
-                            <?php if(isset($this->session->userdata['submoduleAccess']->Manage_Class_N_Section) && in_array('4', $this->session->userdata['submoduleAccess']->Manage_Class_N_Section)){?><a onclick="return confirm('Are you sure to delete this record?')" href="<?php echo site_url('clas/remove/'.$c['class_id']); ?>" class="btn btn-danger btn-xs "><span class="fa fa-trash"></span> Delete</a> <?php } ?>
+                            <!-- <?php if(isset($this->session->userdata['submoduleAccess']->Manage_Class_N_Section) && in_array('4', $this->session->userdata['submoduleAccess']->Manage_Class_N_Section)){?><a onclick="return confirm('Are you sure to delete this record?')" href="<?php echo site_url('clas/remove/'.$c['class_id']); ?>" class="btn btn-danger btn-xs "><span class="fa fa-trash"></span> Delete</a> <?php } ?> -->
                         </td>
                     </tr>
                     </tbody>

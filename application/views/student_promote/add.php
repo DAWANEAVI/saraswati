@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <label for="acadamic_session" class="control-label"><span class="text-danger">*</span>Acadamic Session</label>
             <div class="form-group">
-                <select name="acadamic_session" id="acadamic_session" class="select2" data-placeholder="Select Acadamic Session">
+                <select name="acadamic_session" id="academic_session" class="select2" data-placeholder="Select Acadamic Session">
                     <?php
                     foreach ($all_sessions as $session) {
                         $selected = ($session['session_id'] == $this->input->post('acadamic_session')) ? ' selected="selected"' : "";

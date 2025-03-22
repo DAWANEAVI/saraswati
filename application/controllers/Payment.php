@@ -397,7 +397,7 @@ class Payment extends CI_Controller {
                 $studentInfo = $this->Student_model->get_student($student_id); //arr
                 $PaymentSessionRes = $this->Academic_year_model->get_session($payment_session);
                 $template_id = $this->Global_model->get_config_value('paymentTemplateID') ? $this->Global_model->get_config_value('paymentTemplateID') : 0;
-                $message = 'Dear '.$studentInfo['fullname'].', Fee of '.$totalAmount.' for Academic Year '.$PaymentSessionRes['session'].' paid successfully. Thank you! Little Birds School Darwah Powered By Technopride Softwares.';
+                $message = 'Dear '.$studentInfo['fullname'].', Fee of '.$totalAmount.' for Academic Year '.$PaymentSessionRes['session'].' paid successfully. Thank you! SPEMS Babhulgaon @ Technopride Softwares.';
                 $smsData =[
                     'session_id' => $session_id,
                     'student_id' => $student_id,

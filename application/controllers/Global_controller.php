@@ -48,7 +48,7 @@ class Global_controller extends CI_Controller {
                     $response = $client->request( 'GET', $url,[ 'query' => $body ]);
                     $statusCode = $response->getStatusCode();
                     $respMsg = $response->getReasonPhrase();
-
+                    //print_r( $response->getBody()->getContents());die();
                     if($statusCode == 200){
                         $cleanresult = preg_replace('/[[:cntrl:]]/', '', $response->getBody()->getContents());
                         $result = json_decode($cleanresult, true);

@@ -13,11 +13,6 @@ class Sms extends CI_Controller {
     {
     try{
         $data['noof_page'] = 0;
-        // $params['limit'] = 100;
-        // $params['offset'] = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-        //$data['noof_page'] = 1;
-        // $config = $this->config->item('pagination');
-        // $config['base_url'] = site_url('sms/index?');
         $config['total_rows'] = $this->Sms_model->get_all_sms_log_count();
         $this->pagination->initialize($config);
         $data['sms_log'] = $this->Sms_model->get_all_sms_log();
