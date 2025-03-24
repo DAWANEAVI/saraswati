@@ -87,6 +87,8 @@ class Leaving_certificate extends CI_Controller {
             $leaving_certificate_id = $this->Leaving_certificate_model->add_leaving_certificate($params);
             $student_param = array(
                 'is_active' => 0,
+                'caste' => $this->input->post('caste'),
+                'religion' => $this->input->post('religion'),
             );
             $this->Student_model->update_student($this->input->post('student_id'), $student_param);
             redirect('leaving_certificate/index');

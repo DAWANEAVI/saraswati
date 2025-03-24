@@ -73,6 +73,29 @@
                 <span class="text-danger"><?php echo form_error('surname'); ?></span>
             </div>
         </div>
+        <div class="col-md-4">
+            <label for="religion" class="control-label">Religion</label>
+            <div class="form-group">
+                <input type="text" name="religion" id="religion" value="<?php echo $this->input->post('religion') ; ?>" class="form-control" id="religion" />
+                <i class="form-group__bar"></i>
+            </div>
+        </div>
+        
+        
+        <div class="col-md-4">
+            <label for="caste" class="control-label">Caste</label>
+            <div class="form-group">
+                <input type="text" name="caste" id="caste" value="<?php echo $this->input->post('caste'); ?>" class="form-control" id="caste" />
+                <i class="form-group__bar"></i>
+            </div>
+        </div>
+        <!-- <div class="col-md-4">
+            <label for="category" class="control-label">Sub-Caste</label>
+            <div class="form-group">
+                <input type="text" name="category" value="<?php echo $this->input->post('category'); ?>" class="form-control" id="category" />
+                <i class="form-group__bar"></i>
+            </div>
+        </div> -->
         <div class="col-md-3">
             <label><span class="text-danger"></span>Place Of Birth</label>
             <div class="form-group">
