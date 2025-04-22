@@ -83,19 +83,29 @@ class Payment extends CI_Controller {
        
         $this->form_validation->set_rules('TuitionFeesCT', 'Tuition Fees Total', 'required');
         $this->form_validation->set_rules('TuitionFeesCR', 'Tuition Fees Remaining', 'required');
+        $this->form_validation->set_rules('TuitionFeesCA', 'Tuition Fees Consession Amount', 'required');
 
         //print_r($this->input->post()); die();
 
         if ($this->form_validation->run()) {
             $total_total = $this->input->post('total_total');
             $total_remaining = $this->input->post('total_remaining');
+            $total_consession = $this->input->post('total_consession');
             $total_CT =$this->input->post('TuitionFeesCT');
             $total_CR =$this->input->post('TuitionFeesCR');
-            if(($total_total != $total_CT) || ($total_remaining != $total_CR)){
+            $total_CA =$this->input->post('TuitionFeesCA');
+            if(($total_total != $total_CT) || ($total_remaining != $total_CR) || ($total_consession != $total_CA)){
                 $this->session->set_flashdata('alertType','failed' );
                 $this->session->set_flashdata('message','Total Is Not Match With Subtotal Please Recalulate..' );
                 redirect('payment/head_adjustment/'.$student_id.'/'.$payment_id);
             }
+
+            if($total_consession == 0){
+                $this->session->set_flashdata('alertType','failed' );
+                $this->session->set_flashdata('message','Total Concession should be greater then 0' );
+                redirect('payment/head_adjustment/'.$student_id.'/'.$payment_id);
+            }
+            
             //remaining fees validations
             
             if($this->input->post('TuitionFeesCR')>$this->input->post('TuitionFeesCT')){
@@ -104,9 +114,15 @@ class Payment extends CI_Controller {
                 redirect('payment/head_adjustment/'.$student_id.'/'.$payment_id);
             }
 
+            if($this->input->post('TuitionFeesCR')<$this->input->post('TuitionFeesCA')){
+                $this->session->set_flashdata('alertType','failed' );
+                $this->session->set_flashdata('message','Consession Amount in Tuition Fees should not be greater then remaining Tuition Fees' );
+                redirect('payment/head_adjustment/'.$student_id.'/'.$payment_id);
+            }
+
             $updateData = array(
-                'total_amount' => $total_total,
-                'paid_amount' => $total_total - $total_remaining,
+                'total_amount' => $total_total - $total_consession,
+                //'paid_amount' => $total_total - $total_remaining,
                 'modified_by' => $this->session->user_id, 
             );
 
@@ -129,14 +145,14 @@ class Payment extends CI_Controller {
                 'payment_id' => $payment_id,
                 'student_id' => $student_id,
                 'class_id' => $this->input->post('class_id'),
-                'amount' => $total_OT - $total_remaining,
+                'amount' => $total_consession,
                 'inputs' => json_encode(array('OD'=>$original_data,'CD' => $changed_data)),
                 'created_by' => $this->session->user_id,
                 'statusID' => 1,
             );
 
             $this->load->model('Payment_concession_model');
-            if($total_OT - $total_remaining) $sys_lod_id = $this->Payment_concession_model->add_payment_concession($params);
+            $sys_lod_id = $this->Payment_concession_model->add_payment_concession($params);
             //print_r($sys_lod_id);die();
 
             $this->session->set_flashdata('alertType','success' );

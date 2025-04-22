@@ -37,13 +37,14 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
 
             <hr />
 
-            <table class="table" style="overflow: hidden;">
+            <table class="table table-bordered" style="overflow: hidden;">
                 <thead class="thead-default">
                 <th>S.N.</th>
                 <th>Heads</th>
                 <th>Class Fees</th>
                 <th>Student Total Amount</th>
                 <th>Student Remaining Amount</th>
+                <th>Concession Amount</th>
                 </thead>
                 <tbody>
 
@@ -60,7 +61,7 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                             <th><?= $v['fees_for'] ?></th>
 
                             <td>
-                                <input id="<?php echo  str_replace(' ', '', $v['fees_for']).'class'; ?>" type="number" class="form-control" name="<?php echo str_replace(' ', '', $v['fees_for']).'class'; ?>" value="<?php echo $v['amount'] ?>" readonly="">
+                                <input style="opacity:1 !important;" id="<?php echo  str_replace(' ', '', $v['fees_for']).'class'; ?>" type="number" class="form-control" name="<?php echo str_replace(' ', '', $v['fees_for']).'class'; ?>" value="<?php echo $v['amount'] ?>" readonly="">
                                 <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'class'); ?></span>
                             </span></td>
                             <th>
@@ -77,14 +78,19 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                                 }
 
                                 ?>
-                                <input id="<?php echo  str_replace(' ', '', $v['fees_for']).'CT'; ?>" type="text" class="form-control total_amount" name="<?php echo str_replace(' ', '', $v['fees_for']).'CT'; ?>" value="<?php echo $y; ?>" required="">
+                                <input  style="opacity:1 !important;" id="<?php echo  str_replace(' ', '', $v['fees_for']).'CT'; ?>" type="text" class="form-control" name="<?php echo str_replace(' ', '', $v['fees_for']).'CT'; ?>" value="<?php echo $y; ?>" required="" readonly="">
                                 <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'CT'); ?></span>
                                 
                             </th>
                             <td>
-                                <input type="text" id="<?php echo str_replace(' ', '', $v['fees_for']).'CR'; ?>" name="<?php echo str_replace(' ', '', $v['fees_for']).'CR'; ?>" value="<?php echo $payment_data->total_amount  - $payment_data->paid_amount; ?>" class="form-control amount"  data-rule-required="true">
+                                <input style="opacity:1 !important;" type="text" id="<?php echo str_replace(' ', '', $v['fees_for']).'CR'; ?>" name="<?php echo str_replace(' ', '', $v['fees_for']).'CR'; ?>" value="<?php echo $payment_data->total_amount  - $payment_data->paid_amount; ?>" class="form-control"  data-rule-required="true" required="" readonly=""> 
 
                                 <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'CR'); ?></span>
+                            </td>
+                            <td>
+                                <input type="text" id="<?php echo str_replace(' ', '', $v['fees_for']).'CA'; ?>" name="<?php echo str_replace(' ', '', $v['fees_for']).'CA'; ?>" value="<?php echo 0; ?>" class="form-control amount"  data-rule-required="true">
+
+                                <span class="text-danger"><?php echo form_error(str_replace(' ', '', $v['fees_for']).'CA'); ?></span>
                             </td>
                             <input type="hidden" name="<?php echo str_replace(' ', '', $v['fees_for']).'OT'; ?>"value="<?php echo $x; ?>">
                             <input type="hidden" name="<?php echo str_replace(' ', '', $v['fees_for']).'OR'; ?>" value="<?php echo $x; ?>">
@@ -101,14 +107,15 @@ echo form_open('payment/head_adjustment/'.$student_id.'/'.$payment_id, $attribut
                         <th>#</th>
                         <th>Total</th>
                         <th><?= $total; ?></th>
-                        <th><input readonly="true" type="text" name="total_total" value="<?= $total_student ?>" id="total_total" class="form-control highcontra"></th>
+                        <th><input readonly="true" type="text" name="total_total" value="<?= $total_student ?>" class="form-control highcontra"></th>
                         <th>
-                            <input readonly="true" type="text" name="total_remaining" value="<?= $payment_data->total_amount  - $payment_data->paid_amount ?>" id="total" class="form-control highcontra">
+                            <input readonly="true" type="text" name="total_remaining" value="<?= $payment_data->total_amount  - $payment_data->paid_amount ?>" class="form-control highcontra">
                             <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
                             <input type="hidden" name="payment_id" value="<?php echo $payment_id; ?>">
                             <input type="hidden" name="session_id" value="<?php echo $payment_data->session_id; ?>">
                             <input type="hidden" name="class_id" value="<?php echo $payment_data->class_id; ?>">
                         </th>
+                        <th><input readonly="true" type="text" name="total_consession" value="0" id="total" class="form-control highcontra"></th>
                     <!-- <tr>
                         <td></td>
                         <td colspan="3">
