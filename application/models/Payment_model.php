@@ -252,7 +252,7 @@ class Payment_model extends CI_Model
         $this->db->from('payments');
         $this->db->where('student_id',$student_id);
         $this->db->where('statusID',1);
-        $this->db->where('total_amount', '>' , 'paid_amount');
+        $this->db->where('total_amount > paid_amount');
         $query = $this->db->get()->result_array();
         return $query;          
    }
