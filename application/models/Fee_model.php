@@ -46,7 +46,7 @@ class Fee_model extends CI_Model
         $this->db->from('fees');
         $this->db->where('session_id',$session_id);
         $this->db->where('class_id',$class_id);
-        $this->db->where('fees_for','Tution Fees');
+        $this->db->where('fees_for','Tuition Fees');
         $this->db->where('statusID',1);
         $query = $this->db->get()->row();
         return $query;

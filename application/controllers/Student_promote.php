@@ -56,7 +56,8 @@ class Student_promote extends CI_Controller {
                 $newSession = $this->Academic_year_model->get_session($this->input->post('tosession'));
 
                 $this->load->model('Fee_model');
-                $fees = $this->Fee_model->getFeeBySessionClass($this->input->post('tosession'), $this->input->post('class_new'));
+                $fees = $this->Fee_model->getInitialFees($this->input->post('tosession'), $this->input->post('class_new'));
+                //$fees = $this->Fee_model->getFeeBySessionClass($this->input->post('tosession'), $this->input->post('class_new'));
                 //print_r($fees);
                 //die;
                 if(empty($fees)){
@@ -87,25 +88,25 @@ class Student_promote extends CI_Controller {
                 );
                 $this->Student_model->promote_student($v, $student_param);
         
-                $totalfees=0;
-                if (!empty($fees)) {
-                    switch ($value->fees_for) {
-                        case 'Tution Fees':
-                            $total_amount = $value->amount;
-                            $totalfees = $totalfees + $value->amount;
-                            break;
-                        default:
-                            # code...
-                            break;
-                    }
-                }
+                // $totalfees=0;
+                // if (!empty($fees)) {
+                //     switch ($value->fees_for) {
+                //         case 'Tuition Fees':
+                //             $total_amount = $value->amount;
+                //             $totalfees = $totalfees + $value->amount;
+                //             break;
+                //         default:
+                //             # code...
+                //             break;
+                //     }
+                // }
               
                 $payment_parameter = array(
                     'student_id' => $v,
                     'academic_year' => $newSession['session'],
                     'session_id' => $this->input->post('tosession'),
                     'class_id' => $this->input->post('class_new'),
-                    'total_amount' =>$totalfees,
+                    'total_amount' =>$fees->amount,
                     'paid_amount' => 0,
                     'payment_seq' => 0,
                     'sync' => 0,
@@ -134,7 +135,8 @@ class Student_promote extends CI_Controller {
                     $newSession = $this->Academic_year_model->get_session($this->input->post('tosession'));
 
                     $this->load->model('Fee_model');
-                    $fees = $this->Fee_model->getFeeBySessionClass($this->input->post('tosession'), $this->input->post('class_new'));
+                    $fees = $this->Fee_model->getInitialFees($this->input->post('tosession'), $this->input->post('class_new'));
+                    //$fees = $this->Fee_model->getFeeBySessionClass($this->input->post('tosession'), $this->input->post('class_new'));
                     if(empty($fees)){
                         $this->session->set_flashdata('alertType','failed' );
                         $this->session->set_flashdata('message','plz add fees , Fees not found for this class and session...' );
@@ -179,25 +181,25 @@ class Student_promote extends CI_Controller {
     
                     if ($rte_applicable == 0) {
 
-                        $totalfees=0;
-                        if (!empty($fees)) {
-                            switch ($value->fees_for) {
-                                case 'Tution Fees':
-                                    $total_amount = $value->amount;
-                                    $totalfees = $totalfees + $value->amount;
-                                    break;
-                                default:
-                                    # code...
-                                    break;
-                            }
-                        }
+                        // $totalfees=0;
+                        // if (!empty($fees)) {
+                        //     switch ($value->fees_for) {
+                        //         case 'Tuition Fees':
+                        //             $total_amount = $value->amount;
+                        //             $totalfees = $totalfees + $value->amount;
+                        //             break;
+                        //         default:
+                        //             # code...
+                        //             break;
+                        //     }
+                        // }
                     
                         $payment_parameter = array(
                             'student_id' => $v,
                             'academic_year' => $newSession['session'],
                             'session_id' => $this->input->post('tosession'),
                             'class_id' => $this->input->post('class_new'),
-                            'total_amount' =>$totalfees,
+                            'total_amount' =>$fees->amount,
                             'paid_amount' => 0,
                             'payment_seq' => 0,
                             'sync' => 0,
@@ -207,14 +209,13 @@ class Student_promote extends CI_Controller {
                         ); 
                     }else{
 
-                        $totalfees=0;
                         
                        $payment_parameter = array(
                             'student_id' => $v,
                             'academic_year' => $newSession['session'],
                             'session_id' => $this->input->post('tosession'),
                             'class_id' => $this->input->post('class_new'),
-                            'total_amount' =>$totalfees,
+                            'total_amount' =>0,
                             'paid_amount' => 0,
                             'sync' => 0,
                             'late_fee' => 0,
